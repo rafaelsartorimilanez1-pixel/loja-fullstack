@@ -1,5 +1,5 @@
 // Importa a conexão com o banco de dados
-import { db } from '../db.js';
+import db  from '../db.js';
 
 // Função responsável por buscar todos os produtos do banco
 export const getProdutos = (_, res) => {
