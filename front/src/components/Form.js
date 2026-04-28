@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-// 📌 URL base da API (vem do .env do Vercel)
-// Ex: https://loja-fullstack-production.up.railway.app
-const API = process.env.REACT_APP_API_URL;
+// 🔥 URL da API (Railway)
+// IMPORTANTE: precisa terminar com /produtos porque seu backend usa isso
+const API = 'https://loja-fullstack-production.up.railway.app/produtos';
 
 const FormContainer = styled.form`
     display: flex;
@@ -32,7 +32,6 @@ const Button = styled.button`
 const Form = ({ onEdit, setOnEdit, getProducts }) => {
     const ref = useRef();
 
-    // 📌 Preenche o formulário quando está editando um produto
     useEffect(() => {
         if (onEdit) {
             const product = ref.current;
@@ -44,13 +43,11 @@ const Form = ({ onEdit, setOnEdit, getProducts }) => {
         }
     }, [onEdit]);
 
-    // 📌 Função que envia os dados (CREATE ou UPDATE)
     const handlerSubmit = async (event) => {
         event.preventDefault();
 
         const product = ref.current;
 
-        // 📌 Validação simples de campos obrigatórios
         if (
             !product.nome.value ||
             !product.preco.value ||
@@ -61,7 +58,7 @@ const Form = ({ onEdit, setOnEdit, getProducts }) => {
         }
 
         try {
-            // 📌 SE estiver editando -> UPDATE
+            // 🔥 UPDATE
             if (onEdit) {
                 await axios.put(`${API}/${onEdit.idprodutos}`, {
                     nome: product.nome.value,
@@ -72,9 +69,9 @@ const Form = ({ onEdit, setOnEdit, getProducts }) => {
 
                 toast.success('Produto atualizado com sucesso');
             } 
-            // 📌 SENÃO -> CREATE
+            // 🔥 CREATE
             else {
-                await axios.post(`${API}`, {
+                await axios.post(API, {
                     nome: product.nome.value,
                     preco: product.preco.value,
                     estoque: product.estoque.value,
@@ -84,19 +81,15 @@ const Form = ({ onEdit, setOnEdit, getProducts }) => {
                 toast.success('Produto cadastrado com sucesso');
             }
 
-            // 📌 Limpa formulário após envio
             product.nome.value = '';
             product.preco.value = '';
             product.estoque.value = '';
             product.fone.value = '';
 
             setOnEdit(null);
-
-            // 📌 Atualiza lista de produtos na tela
             getProducts();
 
         } catch (err) {
-            // 📌 Tratamento de erro da API
             toast.error(err.response?.data || "Erro ao processar requisição");
         }
     };

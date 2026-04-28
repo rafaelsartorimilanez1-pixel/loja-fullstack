@@ -30,7 +30,7 @@ function App() {
   // 🔥 Buscar produtos da API
   const getProducts = async () => {
     try {
-      const res = await axios.get(`${API_URL}/`);
+      const res = await axios.get(`${API_URL}/produtos`);
       setProducts(res.data);
     } catch (error) {
       console.log(error);
