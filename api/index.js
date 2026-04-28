@@ -1,7 +1,7 @@
 import express, { urlencoded } from 'express'
 import cors from 'cors'
 
-import  produtosRoute from './route/produto.js'
+import  produtosRoute from './route/produtos.js'
 
 const app = express();
 
