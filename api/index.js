@@ -4,7 +4,7 @@ import cors from 'cors'
 import  produtosRoute from './route/produtos.js'
 
 const app = express();
-const port = 4000;
+const port =process.env.DATABASE_URL || process.env.PORT   ;
 
 app.use(urlencoded({extended:true}))
 app.use(express.json());
