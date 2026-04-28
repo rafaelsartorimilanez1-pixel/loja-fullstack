@@ -5,10 +5,9 @@ import Grid from "./components/Grid";
 import { useEffect, useState } from "react";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios'
+import axios from 'axios';
 
 const Container = styled.div`
-
   width: 100%;
   max-width: 800px;
   margin-top: 20px;
@@ -16,54 +15,53 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
-`
-const Title = styled.h1`
+`;
 
-`
+const Title = styled.h1``;
+
+// 🔥 URL da sua API no Railway (produção)
+const API_URL = 'https://loja-fullstack-production.up.railway.app';
 
 function App() {
 
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
+  const [onEdit, setOnEdit] = useState(null);
 
-  const [onEdit, setOnEdit] = useState(null)
-
-  const getProducts = async (params) => {
+  // 🔥 Buscar produtos da API
+  const getProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:4000/')
-      setProducts(res.data)
+      const res = await axios.get(`${API_URL}/`);
+      setProducts(res.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    getProducts()
-  }, [])
-
-
+    getProducts();
+  }, []);
 
   return (
     <>
-      <GlobalStyle/>
+      <GlobalStyle />
 
       <Container>
+        <Title>Cadastro de Produtos</Title>
 
-      <Title>Cadastro de Produtos</Title>
+        <Form
+          onEdit={onEdit}
+          setOnEdit={setOnEdit}
+          getProducts={getProducts}
+        />
 
-      <Form
-        onEdit={onEdit}
-        setOnEdit={setOnEdit}
-        getProducts={getProducts}
-      />
-
-      <Grid 
-        products={products}
-        setProducts={setProducts}
-        setOnEdit={setOnEdit}
-      />
-
+        <Grid
+          products={products}
+          setProducts={setProducts}
+          setOnEdit={setOnEdit}
+        />
       </Container>
-      <ToastContainer 
+
+      <ToastContainer
         autoClose={3000}
         position="bottom-left"
         theme="colored"
